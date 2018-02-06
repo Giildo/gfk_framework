@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ruleset name="JojojiqueFramework">
+    <description>Tests du code du Framework Jojotique</description>
+
+    <arg name="colors"/>
+    <arg value="p"/>
+
+    <file>src</file>
+    <file>public</file>
+
+
+    <rule ref="PSR2"/>
+</ruleset>
