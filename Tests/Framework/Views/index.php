@@ -1,0 +1,1 @@
+<h1>Bienvenue sur le blog</h1>

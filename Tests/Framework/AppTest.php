@@ -5,9 +5,10 @@ namespace Tests\Framework;
 
 use Exception;
 use GuzzleHttp\Psr7\ServerRequest;
-use Jojotique\Blog\BlogModule;
 use Jojotique\Framework\App;
+use Jojotique\Framework\Renderer;
 use PHPUnit\Framework\TestCase;
+use Tests\Framework\Module\BlogModule;
 use Tests\Framework\Module\TestModule;
 
 /**
@@ -17,13 +18,23 @@ use Tests\Framework\Module\TestModule;
  */
 class AppTest extends TestCase
 {
+    private $renderer;
+
+    public function setUp()
+    {
+        $this->renderer = new Renderer();
+        $this->renderer->addPath(__DIR__ . '/Views');
+    }
+
     /**
      * Test si la redirection en cas de "/" final fonctionne
      * @throws Exception
      */
     public function testRedirectTrailingSlash()
     {
-        $app = new App();
+        $app = new App([], [
+            'renderer' => $this->renderer
+        ]);
         $request = new ServerRequest('GET', '/demoSlash/');
         $response = $app->run($request);
 
@@ -39,16 +50,19 @@ class AppTest extends TestCase
     {
         $app = new App([
             BlogModule::class
+        ], [
+            'renderer' => $this->renderer
         ]);
 
         $request = new ServerRequest('GET', '/blog');
         $response = $app->run($request);
 
+        $this->assertEquals('<h1>Bienvenue sur le blog</h1>', (string)$response->getBody());
+        $this->assertEquals(200, $response->getStatusCode());
+
         $requestSingle = new ServerRequest('GET', '/blog/post-essai');
         $responseSingle = $app->run($requestSingle);
 
-        $this->assertEquals('<h1>Bienvenue sur le blog</h1>', (string)$response->getBody());
-        $this->assertEquals(200, $response->getStatusCode());
         $this->assertEquals('<h1>Bienvenue sur l\'article post-essai</h1>', (string)$responseSingle->getBody());
         $this->assertEquals(200, $responseSingle->getStatusCode());
     }
@@ -60,6 +74,8 @@ class AppTest extends TestCase
     {
         $app = new App([
             TestModule::class
+        ], [
+            'renderer' => $this->renderer
         ]);
 
         $request = new ServerRequest('GET', '/essai');
@@ -74,7 +90,9 @@ class AppTest extends TestCase
      */
     public function testUnknowUrl()
     {
-        $app = new App();
+        $app = new App([], [
+            'renderer' => $this->renderer
+        ]);
         $request = new ServerRequest('GET', '/essai');
         $response = $app->run($request);
 

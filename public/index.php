@@ -3,12 +3,17 @@
 use GuzzleHttp\Psr7\ServerRequest;
 use Jojotique\Blog\BlogModule;
 use Jojotique\Framework\App;
+use Jojotique\Framework\Renderer;
 
 require_once '../vendor/autoload.php';
 
+$renderer = new Renderer();
+$renderer->addPath(dirname(__DIR__) . '/Views');
+
 $app = new App([
-    BlogModule::class,
-    \Tests\Framework\Module\TestModule::class
+    BlogModule::class
+], [
+    'renderer' => $renderer
 ]);
 
 try {

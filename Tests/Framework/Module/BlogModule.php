@@ -1,6 +1,6 @@
 <?php
 
-namespace Jojotique\Blog;
+namespace Tests\Framework\Module;
 
 use GuzzleHttp\Psr7\Response;
 use Jojotique\Framework\Renderer;
@@ -28,7 +28,7 @@ class BlogModule
     public function __construct(Router $router, Renderer $renderer)
     {
         $this->renderer = $renderer;
-        $this->renderer->addPath(__DIR__ . '/Views', 'blog');
+        $this->renderer->addPath(dirname(__DIR__) . '/Views', 'blog');
 
         $router->get('/blog', [$this, 'index'], 'blog.index');
         $router->get('/blog/{slug}', [$this, 'show'], 'blog.show');

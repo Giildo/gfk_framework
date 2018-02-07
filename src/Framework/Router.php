@@ -57,6 +57,7 @@ class Router
     }
 
     /**
+     * Utilise la méthode "generateUri" de FastRouteRouter
      * @param string $routeName
      * @param array $params
      * @return null|string
