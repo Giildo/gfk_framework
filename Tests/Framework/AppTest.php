@@ -6,7 +6,7 @@ namespace Tests\Framework;
 use Exception;
 use GuzzleHttp\Psr7\ServerRequest;
 use Jojotique\Framework\App;
-use Jojotique\Framework\Renderer;
+use Jojotique\Framework\Renderer\PHPRenderer;
 use PHPUnit\Framework\TestCase;
 use Tests\Framework\Module\BlogModule;
 use Tests\Framework\Module\TestModule;
@@ -22,7 +22,7 @@ class AppTest extends TestCase
 
     public function setUp()
     {
-        $this->renderer = new Renderer();
+        $this->renderer = new PHPRenderer();
         $this->renderer->addPath(__DIR__ . '/Views');
     }
 

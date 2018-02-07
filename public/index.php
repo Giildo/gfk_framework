@@ -3,12 +3,11 @@
 use GuzzleHttp\Psr7\ServerRequest;
 use Jojotique\Blog\BlogModule;
 use Jojotique\Framework\App;
-use Jojotique\Framework\Renderer;
+use Jojotique\Framework\Renderer\TwigRenderer;
 
 require_once '../vendor/autoload.php';
 
-$renderer = new Renderer();
-$renderer->addPath(dirname(__DIR__) . '/Views');
+$renderer = new TwigRenderer(dirname(__DIR__) . '/Views');
 
 $app = new App([
     BlogModule::class

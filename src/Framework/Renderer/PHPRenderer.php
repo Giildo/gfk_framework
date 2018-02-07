@@ -1,17 +1,17 @@
 <?php
 
-namespace Jojotique\Framework;
+namespace Jojotique\Framework\Renderer;
 
 /**
- * Class Renderer
+ * Class PHPRenderer
  * Objet qui permet l'envoie des vues
  * @package Jojotique\Framework
  */
 /**
- * Class Renderer
+ * Class PHPRenderer
  * @package Jojotique\Framework
  */
-class Renderer
+class PHPRenderer implements RendererInterface
 {
     /**
      * Namespace par défaut
@@ -29,6 +29,13 @@ class Renderer
      * @var array
      */
     public $globales = [];
+
+    public function __construct(?string $defaultPath = null)
+    {
+        if (!is_null($defaultPath)) {
+            $this->addPath($defaultPath);
+        }
+    }
 
     /**
      * Ajoute un chemin pour afficher les vues
@@ -72,7 +79,7 @@ class Renderer
     }
 
     /**
-     * Permet d'ajouter des variables globales
+     * Ajoute des variables globales
      * @param string $key
      * @param mixed $value
      */

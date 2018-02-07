@@ -3,7 +3,7 @@
 namespace Jojotique\Blog;
 
 use GuzzleHttp\Psr7\Response;
-use Jojotique\Framework\Renderer;
+use Jojotique\Framework\Renderer\RendererInterface;
 use Jojotique\Framework\Router;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
@@ -15,7 +15,7 @@ use Psr\Http\Message\ServerRequestInterface;
 class BlogModule
 {
     /**
-     * @var Renderer
+     * @var RendererInterface
      */
     private $renderer;
 
@@ -23,9 +23,9 @@ class BlogModule
      * BlogModule constructor.
      * Initialise les différentes Routes
      * @param Router $router
-     * @param Renderer $renderer
+     * @param RendererInterface $renderer
      */
-    public function __construct(Router $router, Renderer $renderer)
+    public function __construct(Router $router, RendererInterface $renderer)
     {
         $this->renderer = $renderer;
         $this->renderer->addPath(__DIR__ . '/Views', 'blog');

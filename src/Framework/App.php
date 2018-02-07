@@ -78,7 +78,7 @@ class App
         } elseif ($response instanceof ResponseInterface) {
             return $response;
         } else {
-            throw new Exception('$response isn\'t a string or isn\'t an instance of ResponseInterface');
+            throw new Exception('$response n\'est pas une instance de ResponseInterface et n\'est pas un string');
         }
     }
 }

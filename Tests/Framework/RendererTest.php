@@ -2,19 +2,19 @@
 
 namespace Tests\Framework;
 
-use Jojotique\Framework\Renderer;
+use Jojotique\Framework\Renderer\PHPRenderer;
 use PHPUnit\Framework\TestCase;
 
 class RendererTest extends TestCase
 {
     /**
-     * @var Renderer
+     * @var PHPRenderer
      */
     private $renderer;
 
-    public function setUp()/* The :void return type declaration that should be here would cause a BC issue */
+    public function setUp()
     {
-        $this->renderer = new Renderer();
+        $this->renderer = new PHPRenderer(__DIR__ . '/Views');
     }
 
     /**
