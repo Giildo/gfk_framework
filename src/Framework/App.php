@@ -4,6 +4,7 @@ namespace Jojotique\Framework;
 
 use Exception;
 use GuzzleHttp\Psr7\Response;
+use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
 
@@ -21,26 +22,24 @@ class App
     private $module = [];
 
     /**
-     * @var Router
+     * @var ContainerInterface
      */
-    private $router;
+    private $container;
 
     /**
      * App constructor.
+     * @param ContainerInterface $container
      * @param string[] $modules Liste des modules à charger
-     * @param array|null $dependencies
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
-    public function __construct(?array $modules = [], ?array $dependencies = [])
+    public function __construct(ContainerInterface $container, ?array $modules = [])
     {
-        $this->router = new Router();
-
-        if (array_key_exists('renderer', $dependencies)) {
-            $dependencies['renderer']->addGlobal('router', $this->router);
-        }
-
         foreach ($modules as $module) {
-            $this->module[] = new $module($this->router, $dependencies['renderer']);
+            $this->module[] = $container->get($module);
         }
+
+        $this->container = $container;
     }
 
     /**
@@ -48,6 +47,8 @@ class App
      * @param ServerRequestInterface $request Classe qui implémente une Interface PSR7 friendly
      * @return ResponseInterface Classe qui implémente une Interface PSR7 friendly
      * @throws Exception
+     * @throws \Psr\Container\ContainerExceptionInterface
+     * @throws \Psr\Container\NotFoundExceptionInterface
      */
     public function run(ServerRequestInterface $request): ResponseInterface
     {
@@ -59,7 +60,7 @@ class App
                 ->withHeader('Location', substr($uri, 0, -1));
         }
 
-        $route = $this->router->match($request);
+        $route = $this->container->get(Router::class)->match($request);
 
         if (is_null($route)) {
             return new Response(404, [], '<h1>Erreur 404</h1>');
@@ -71,7 +72,12 @@ class App
             return $request->withAttribute($key, $params[$key]);
         }, $request);
 
-        $response = call_user_func_array($route->getCallback(), [$request]);
+        // Vérification du retour
+        $callback = $route->getCallback();
+        if (is_string($callback)) {
+            $callback = $this->container->get($callback);
+        }
+        $response = call_user_func_array($callback, [$request]);
 
         if (is_string($response)) {
             return new Response(200, [], $response);

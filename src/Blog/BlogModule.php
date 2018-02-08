@@ -2,56 +2,34 @@
 
 namespace Jojotique\Blog;
 
-use GuzzleHttp\Psr7\Response;
+use Jojotique\Blog\Actions\BlogAction;
+use Jojotique\Framework\Module;
 use Jojotique\Framework\Renderer\RendererInterface;
 use Jojotique\Framework\Router;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Class BlogModule
  * @package Jojotique\Blog
  */
-class BlogModule
+class BlogModule extends Module
 {
     /**
-     * @var RendererInterface
+     * Permet de définir si une config est crée, si oui sera chargée à l'index
      */
-    private $renderer;
+    public const DEFINITION = __DIR__ . '/config.php';
 
     /**
      * BlogModule constructor.
      * Initialise les différentes Routes
+     * @param string $prefix
      * @param Router $router
      * @param RendererInterface $renderer
      */
-    public function __construct(Router $router, RendererInterface $renderer)
+    public function __construct(string $prefix, Router $router, RendererInterface $renderer)
     {
-        $this->renderer = $renderer;
-        $this->renderer->addPath(__DIR__ . '/Views', 'blog');
+        $renderer->addPath(__DIR__ . '/Views', 'blog');
 
-        $router->get('/blog', [$this, 'index'], 'blog.index');
-        $router->get('/blog/{slug}', [$this, 'show'], 'blog.show');
-    }
-
-    /**
-     * Liste les articles
-     * @return ResponseInterface
-     */
-    public function index(): ResponseInterface
-    {
-        return new Response(200, [], $this->renderer->render('@blog/index'));
-    }
-
-    /**
-     * Affiche un Post unique
-     * @param ServerRequestInterface $request
-     * @return ResponseInterface
-     */
-    public function show(ServerRequestInterface $request): ResponseInterface
-    {
-        return new Response(200, [], $this->renderer->render('@blog/show', [
-            'slug' => $request->getAttribute('slug')
-        ]));
+        $router->get($prefix, BlogAction::class, 'blog.index');
+        $router->get($prefix . '/{slug}', BlogAction::class, 'blog.show');
     }
 }
