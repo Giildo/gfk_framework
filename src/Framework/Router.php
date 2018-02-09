@@ -59,11 +59,18 @@ class Router
     /**
      * Utilise la méthode "generateUri" de FastRouteRouter
      * @param string $routeName
-     * @param array $params
+     * @param array|null $params
+     * @param array|null $queryArgs
      * @return null|string
      */
-    public function generateUri(string $routeName, array $params): ?string
+    public function generateUri(string $routeName, ?array $params = [], ?array $queryArgs = []): ?string
     {
-        return $this->router->generateUri($routeName, $params);
+        $uri = $this->router->generateUri($routeName, $params, $queryArgs);
+
+        if (!empty($queryArgs)) {
+            $uri .= '?' . http_build_query($queryArgs);
+        }
+
+        return $uri;
     }
 }

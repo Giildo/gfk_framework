@@ -51,18 +51,21 @@ class BlogAction
         if ($request->getAttribute('id')) {
             return $this->show($request);
         } else {
-            return $this->index();
+            return $this->index($request);
         }
     }
 
     /**
      * Liste les articles
      *
+     * @param ServerRequestInterface $request
      * @return ResponseInterface
      */
-    public function index(): ResponseInterface
+    public function index(ServerRequestInterface $request): ResponseInterface
     {
-        $posts = $this->postTable->findAll(5);
+        $params = $request->getQueryParams();
+
+        $posts = $this->postTable->findPaginated(9, $params['p'] ?? 1);
 
         return new Response(200, [], $this->renderer->render('@blog/index', compact('posts')));
     }
@@ -77,10 +80,10 @@ class BlogAction
     {
         $post = $this->postTable->find($request->getAttribute('id'));
 
-        if ($post->slug !== $request->getAttribute('slug')) {
+        if ($post->getSlug() !== $request->getAttribute('slug')) {
             return $this->redirect('blog.show', [
-                'slug' => $post->slug,
-                'id'   => $post->id
+                'slug' => $post->getSlug(),
+                'id'   => $post->getId()
             ]);
         }
 

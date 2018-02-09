@@ -27,7 +27,7 @@
     </div>
 </nav>
 
-<div class="container-fluid">
+<div class="container">
 
 {% block content %}{% endblock %}
 
@@ -45,5 +45,11 @@
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/js/bootstrap.min.js"
         integrity="sha384-vBWWzlZJ8ea9aCX4pEW3rVHjgjt7zpkNpZk+02D9phzyeVkE+jo0ieGizqPLForn"
         crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/3.0.2/timeago.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/timeago.js/3.0.2/timeago.locales.min.js"></script>
+
+<script>
+    timeago().render(document.querySelectorAll('.timeago'), 'fr')
+</script>
 </body>
 </html>

@@ -2,6 +2,9 @@
 
 namespace Jojotique\Blog\Table;
 
+use Jojotique\Blog\Entity\Post;
+use Jojotique\Database\PaginatedQuery;
+use Pagerfanta\Pagerfanta;
 use PDO;
 use stdClass;
 
@@ -22,28 +25,33 @@ class PostTable
     }
 
     /**
-     * @param int|null $limit
-     * @return stdClass[]
+     * @param int $perPage
+     * @param int $currentPage
+     * @return Pagerfanta
      */
-    public function findAll(?int $limit = null): array
+    public function findPaginated(int $perPage, int $currentPage): Pagerfanta
     {
-        if ($limit === null) {
-            $result = $this->pdo->query('SELECT * FROM posts ORDER BY created_at DESC');
-        } else {
-            $result = $this->pdo->query('SELECT * FROM posts ORDER BY created_at DESC LIMIT ' . $limit);
-        }
+        $query = new PaginatedQuery(
+            $this->pdo,
+            'SELECT * FROM posts ORDER BY createdAt DESC',
+            'SELECT COUNT(id) FROM posts',
+            Post::class
+        );
 
-        return $result->fetchAll();
+        return (new Pagerfanta($query))
+            ->setMaxPerPage($perPage)
+            ->setCurrentPage($currentPage);
     }
 
     /**
      * @param int $id
-     * @return stdClass
+     * @return Post
      */
-    public function find(int $id): stdClass
+    public function find(int $id): Post
     {
         $result = $this->pdo->prepare('SELECT * FROM posts WHERE id=?');
         $result->execute([$id]);
+        $result->setFetchMode(PDO::FETCH_CLASS, Post::class);
         return $result->fetch();
     }
 }

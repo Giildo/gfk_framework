@@ -20,8 +20,8 @@ class PostsSeeder extends AbstractSeed
                 'name'       => $faker->catchPhrase,
                 'slug'       => $faker->slug,
                 'content'    => $faker->text(3000),
-                'created_at' => date('Y-m-d H:i:s', $date),
-                'updated_at' => date('Y-m-d H:i:s', $date)
+                'createdAt' => date('Y-m-d H:i:s', $date),
+                'updatedAt' => date('Y-m-d H:i:s', $date)
             ];
         }
 
