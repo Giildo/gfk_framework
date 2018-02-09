@@ -7,7 +7,7 @@ use Jojotique\Framework\App;
 use Psr\Container\ContainerExceptionInterface;
 use Psr\Container\NotFoundExceptionInterface;
 
-require_once '../vendor/autoload.php';
+require_once dirname(__DIR__) . '/vendor/autoload.php';
 
 $modules = [
     BlogModule::class
@@ -31,10 +31,15 @@ try {
     echo $e->getMessage();
 }
 
-try {
-    $response = $app->run(ServerRequest::fromGlobals());
-} catch (Exception | NotFoundExceptionInterface | ContainerExceptionInterface $e) {
-    echo $e->getMessage();
-}
+/* Vérifie que PHP n'est pas en ligne de commande
+ * Permet d'éviter que phinx ne lance ces actions car il est en ligne de commande
+ */
+if (php_sapi_name() !== 'cli') {
+    try {
+        $response = $app->run(ServerRequest::fromGlobals());
+    } catch (Exception | NotFoundExceptionInterface | ContainerExceptionInterface $e) {
+        echo $e->getMessage();
+    }
 
-\Http\Response\send($response);
+    \Http\Response\send($response);
+}

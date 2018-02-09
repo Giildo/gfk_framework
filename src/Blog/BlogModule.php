@@ -19,6 +19,16 @@ class BlogModule extends Module
     public const DEFINITION = __DIR__ . '/config.php';
 
     /**
+     * Permet de définir si une migration est configurée, si oui sera chargée dans Phinx
+     */
+    public const MIGRATIONS = __DIR__ . '/db/migrations';
+
+    /**
+     * Permet de définir si un envoie de données est configuré, si oui sera chargée dans Phinx
+     */
+    public const SEEDS = __DIR__ . '/db/seeds';
+
+    /**
      * BlogModule constructor.
      * Initialise les différentes Routes
      * @param string $prefix

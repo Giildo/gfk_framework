@@ -87,4 +87,12 @@ class App
             throw new Exception('$response n\'est pas une instance de ResponseInterface et n\'est pas un string');
         }
     }
+
+    /**
+     * @return ContainerInterface
+     */
+    public function getContainer(): ContainerInterface
+    {
+        return $this->container;
+    }
 }

@@ -10,5 +10,7 @@
     <file>src</file>
     <file>Views</file>
 
+    <exclude-pattern>*/db/*</exclude-pattern>
+
     <rule ref="PSR2"/>
 </ruleset>

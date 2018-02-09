@@ -29,13 +29,13 @@ Cours de Grafikart pour la création d'un Framework modulaire en PHP
     * Création d'un système qui récupère le "slug" de l'URI pour le passer à la vue
     * Création d'un pseudo système de templates
     
-4. [Twig](https://youtu.be/A9K--97_pbU)
+4. [Twig](https://youtu.be/A9K--97_pbU):
 
     * Modification des vues et du template pour qu'ils s'affichent à partir du moteur de template Twig
     * Utilisation de nouveaux outils :
         * [twig/twig](https://packagist.org/packages/twig/twig)
         
-5. [Conteneur de dépendance](https://youtu.be/JuB90IYXOwU)
+5. [Conteneur de dépendance](https://youtu.be/JuB90IYXOwU):
 
     * Ajout d'un container de dépendances
     * Refactoring des classes pour permettre de mieux gérer les dépendances
@@ -44,3 +44,13 @@ Cours de Grafikart pour la création d'un Framework modulaire en PHP
     * Création d'un TwigRendererFactory pour gérer la création du TwigRenderer
     * Utilisation de nouveaux outils :
         * [php-di/php-di](https://packagist.org/packages/php-di/php-di)
+        
+6. [Les migrations](https://youtu.be/U_6NhMbl9ZA):
+
+    * Création d'un module de migration avec PHINX, permet de :
+         * Gérer la création, modification et suppression des tables avec des classes PHP
+         * Utilise un fichier de configuration PHP pour gérer les tables et le contenu
+         * Lors du passage de la BDD en local, vers la BDD en ligne, les BDD seront identiques grâce aux classes PHP
+    * Utilisation de nouveaux outils :
+        * [robmorgan/phinx](https://packagist.org/packages/robmorgan/phinx) qui permet la gestion des migrations
+        * [fzaninotto/faker](https://packagist.org/packages/fzaninotto/faker) pour remplir une BDD de fausses données
