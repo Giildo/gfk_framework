@@ -18,13 +18,11 @@
         <span class="navbar-toggler-icon"></span>
     </button>
 
-    <a class="navbar-brand" href="/blog">Mon super blog</a>
+    <a class="navbar-brand" href="{{ path('blog.index') }}">Mon super blog</a>
 
     <div class="collapse navbar-collapse" id="navbarPerso">
         <ul class="navbar-nav mr-auto">
-            <li class="nav-item"><a class="nav-link" href="/blog">Blog</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Link</a></li>
-            <li class="nav-item"><a class="nav-link" href="#">Disabled</a></li>
+            <li class="nav-item"><a class="nav-link" href="{{ path('blog.index') }}">Blog</a></li>
         </ul>
     </div>
 </nav>

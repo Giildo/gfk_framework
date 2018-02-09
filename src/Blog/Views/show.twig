@@ -1,7 +1,14 @@
 {% extends 'template.twig' %}
 
-{% block title slug %}
+{% block title post.name %}
 
 {% block content %}
-    <h1>Article {{ slug }}</h1>
+    <div class="row">
+        <h1 class="col-12">{{ post.name }}</h1>
+        <p class="col-12"><em>Créé le {{ post.created_at }}</em></p>
+    </div>
+
+    <div class="row">
+        <p class="col-12">{{ post.content | nl2br }}</p>
+    </div>
 {% endblock %}
